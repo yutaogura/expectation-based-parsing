@@ -1,0 +1,43 @@
+h1 {
+	font-size: 1.25em;
+	font-weight: bold;
+}
+p {
+	margin: 0;
+	padding: 0;
+	width: 320px;
+	border: 1px dotted gray;
+}
+.node rect {
+    fill: #fff;
+	stroke: #fff;
+	cursor: pointer;
+    stroke-width: 1.5px;
+  }
+.node text{
+	cursor:pointer;
+}  
+
+svg {
+	border: 1px solid black;
+}
+
+.link {
+	fill: none;
+	stroke: #555;
+	stroke-opacity: 0.4;
+	stroke-width: 1.5px;
+}
+
+.part {
+    float:  left;   /* 回り込み指定 */
+}
+.part_parent{
+	overflow:hidden;
+}
+.top{
+	float: left;
+}
+.parent{
+	overflow:hidden;
+}
