@@ -13,11 +13,8 @@
 </head>
 
 <body>
-	<title>Incremental Parsing</title>
-
 	<body onLoad="init()">
 		<h1>Incremental Parsing of Musical harmonic Syntax</h1>
-
 		<div class="parent">
 			<div class="top">
 				<h2>arrange grammar</h2>
@@ -54,9 +51,14 @@
 		
 		<input type="text" size="50" id="txt"/>
 		<button type="button" id="predict" >predict</button>
-		<h2>RESULT</h2> number of trees：<input name="number_of_trees" type="number" value=0 id="num" readonly="disabled" />
+		<h2>RESULT</h2> candidate trees：<input name="number_of_trees" type="number" value=0 id="num" readonly="disabled" />
 
 		<h1>Syntax Tree View</h1>
+		<button type="button" id="pre"> &lt; </button>
+		<input type="number" size="5" id="display_tree_num" value="0" min="0" max="0" />
+		<button type="button" id="post"> &gt; </button>
+		<br>
+		<br>
 		<svg width="1000" height="600"></svg>
 		<script type="text/javascript" src="js/demo.js"></script>
 		<script src="js/sample.js"></script>

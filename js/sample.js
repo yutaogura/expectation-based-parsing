@@ -3,9 +3,9 @@ var height = document.querySelector("svg").clientHeight;
 var data = {};
 
 // 3. 描画用のデータ変換
-// root = d3.hierarchy(data);
-// root.x0 = width / 2;
-// root.y0 = 0;
+// temp_root = d3.hierarchy(data);
+// temp_root.x0 = width / 2;
+// temp_root.y0 = 0;
 
 var tree = d3.tree()
   .size([width, height-100])
@@ -26,11 +26,22 @@ function toggle(d) {
   }
 }
 
+var leaf_depth;
+var leaf_size;
+var temp_root;
 // svg要素の初期化
 function svg_init(source) {
   //svgのg要素を一回まっさらに
   g.remove();
   g = d3.select("svg").append("g").attr("transform", "translate("+ 500 + ",30)");
+  temp_root = source;
+  leaf_depth = temp_root.height;
+  leaf_size = 0;
+  temp_root.eachAfter(function(d){
+    if(!d.children && !d._children){
+      leaf_size += 1;
+    }
+  });
   update(source)
 }
 
@@ -44,24 +55,16 @@ function toggle(d) {
     d._children = null;
   }
 }
-
 // svg要素の更新関数
 function update(source) {
-  tree(root);
-  // tree レイアウト位置を計算
-  var leaf_depth = root.height;
-  var leaf_size = 0;
-  root.eachAfter(function(d){
-    if(!d.children && !d._children){
-      leaf_size += 1;
-    }
-  });
+  tree(temp_root);
   console.log("leaf_size " + leaf_size);
     // 子、孫方向の位置設定
   var increment = 150;
-  var most_left_x = - (leaf_size-1) * increment/2 
+  var most_left_x = -1 *  (leaf_size-1) * increment/2 
+  console.log("most_left_x",leaf_size);
   var i=0;
-  root.eachAfter(function(d) { 
+  temp_root.eachAfter(function(d) { 
     console.log("node",d.data);
     console.log("node",d.children); //子（見えてる）
     console.log("node",d._children); //子(見えてない(格納されている))
@@ -99,9 +102,9 @@ function update(source) {
       }
     });
   // ノードデータをsvg要素に設定
-  console.log("enter",root.descendants());
+  console.log("enter",temp_root.descendants());
     var node = g.selectAll('.node')
-      .data(root.descendants(), function(d) { return d.id || (d.id = ++i); });
+      .data(temp_root.descendants(), function(d) { return d.id || (d.id = ++i); });
 
     console.log("enter",node.enter());
   // ノード enter領域の設定
@@ -140,7 +143,7 @@ function update(source) {
       .duration(duration)
       .attr("transform", function(d) { 
     //console.log("fuga"); 
-    //console.log("(" + d.x +","+ d.y + ")に移動"); 
+    console.log("(" + d.x +","+ d.y + ")に移動"); 
     return "translate(" + d.x + "," + d.y + ")"; });
 
     nodeUpdate.select("rect")
@@ -178,7 +181,7 @@ function update(source) {
 
     // リンクデータをsvg要素に設定
     var link = g.selectAll(".link")
-      .data(root.links(), function(d) { return d.target.id; });
+      .data(temp_root.links(), function(d) { return d.target.id; });
 
     // リンク enter領域のsvg要素定義
     var linkEnter = link.enter().insert('path', "g")
@@ -223,7 +226,7 @@ function update(source) {
 }
 
 //   var link = g.selectAll(".link")
-//     .data(root.descendants().slice(1))
+//     .data(temp_root.descendants().slice(1))
 //     .enter()
 //     .append("path")
 //     .attr("class", "link")
@@ -235,7 +238,7 @@ function update(source) {
 //  // L: lineTo 
 
 //   var node = g.selectAll(".node")
-//     .data(root.descendants())
+//     .data(temp_root.descendants())
 //     .enter()
 //     .append("g")
 //     .attr("class", "node")

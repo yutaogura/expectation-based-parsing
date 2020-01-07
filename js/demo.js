@@ -65,7 +65,8 @@ function init() {
      
     })
 
-    
+    var tree_array = [];
+
     $('#txt').bind('input', function() {
         var s = $(this).val();
 
@@ -96,6 +97,7 @@ function init() {
         // }
         $('#dv').empty();
         var number_of_trees = 0;
+        tree_array = [];
         for(var k in pre_state){
             var trees = pre_state[k].traverse();
             console.log(trees[0].root) //rootがSの物だけ木を描画する
@@ -106,18 +108,25 @@ function init() {
                     console.log(displayTree(trees[i]));
                     root = d3.hierarchy(displayTree(trees[i]));
                     root.x0 = width / 2;
-                    //console.log(root.x0);
                     root.y0 = 0;
-            
-                    //$('#dv').append('<div class="tree" id="displayTree"><ul>' + displayTree(trees[i]) + '</ul></div></br>');
+                    tree_array.push(root);
                 }
             }
         }
-        //tree(root);
+        console.log("tree",tree_array[0]);
         //TODO:　2つ以上木が出来る時どう表示するか？
-        svg_init(root);
-        console.log(number_of_trees);
-        $('#num').val(number_of_trees);
+        if(number_of_trees > 0){
+            svg_init(tree_array[0]);
+            console.log(number_of_trees);
+            $('#num').val(number_of_trees);
+            document.getElementById('display_tree_num').value = 1;
+            document.getElementById('display_tree_num').min = 1;
+            document.getElementById('display_tree_num').max = number_of_trees;
+        }else{
+            console.log(number_of_trees);
+            $('#num').val(number_of_trees);
+            document.getElementById('display_tree_num').max = number_of_trees;
+        }
 
     });
 
@@ -156,11 +165,23 @@ function init() {
                 }
             }
         }
-        svg_init(root);
-        console.log(number_of_trees);
-        $('#num').val(number_of_trees);
+        if(number_of_trees > 0){
+            svg_init(root);
+            console.log(number_of_trees);
+            $('#num').val(number_of_trees);
+            document.getElementById('display_tree_num').max = number_of_trees;
+        }else{
+            console.log(number_of_trees);
+            $('#num').val(number_of_trees);
+            document.getElementById('display_tree_num').max = number_of_trees;
+        }
+
     });
     
-
+    $('#display_tree_num').bind('input', function() {
+        var number = $('#display_tree_num').val();
+        console.log(number-1, tree_array);
+        svg_init(tree_array[number - 1]);
+    })
 
 }
