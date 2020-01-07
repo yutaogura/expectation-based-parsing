@@ -33,6 +33,7 @@ function toggle(d) {
 
 // ６.svgの要素の初期化
 function svg_init(source) {
+  //svgのg要素を一回まっさらに
   g.remove();
   g = d3.select("svg").append("g").attr("transform", "translate("+ 500 + ",30)");
   tree(root);
@@ -46,29 +47,38 @@ function svg_init(source) {
   });
   console.log("leaf_size " + leaf_size);
     // 子、孫方向の位置設定
-  var increment = 200;
+  var increment = 150;
   var most_left_x = - (leaf_size-1) * increment/2 
   var i=0;
   root.eachAfter(function(d) { 
-    console.log("d",d.data);
-    console.log("d",d.children); //子（見えてる）
-    console.log("d",d._children); //子(見えてない(格納されている))
+    console.log("node",d.data);
+    console.log("node",d.children); //子（見えてる）
+    //console.log("node",d._children); //子(見えてない(格納されている))
       if(d.children||d._children){ 
         //節
         d.y = d.depth * 60; 
-        //子が葉？
-        // if(d.children.children){
-        // //  d.x = d.children.x;
-        // }else{
-        //   console.log(d.children.x);
-        //   //d.x = d.children.x;
-        // }
+        //子が何個ある?
+        console.log("node",d.children.length);
+        if(d.children.length == 1){
+          console.log("node","extends node");
+          d.x = d.children[0].x;
+          console.log("node",d.x);
+        }else{
+          console.log("node","mean node");
+          var sum = 0;
+          for(var child of d.children){
+            console.log("node","child: " + child);
+            sum = sum + child.x;
+          }
+          d.x = sum / d.children.length;
+          console.log("node",d.x);
+        }
       }else{
         //葉
-        //console.log(d.data);
-        //d.x0 = most_left_x + increment * i;
-        //i = i+1 ;
+        d.x = most_left_x + increment * i;
+        i = i+1 ;
         d.y = leaf_depth * 60;
+        console.log("node",d.x);
       }
     });
   // ノードデータをsvg要素に設定
@@ -215,29 +225,44 @@ function update(source) {
   });
   console.log("leaf_size " + leaf_size);
     // 子、孫方向の位置設定
-  var increment = 200;
+  var increment = 150;
   var most_left_x = - (leaf_size-1) * increment/2 
   var i=0;
   root.eachAfter(function(d) { 
-    console.log("d",d.data);
-    console.log("d",d.children); //子（見えてる）
-    console.log("d",d._children); //子(見えてない(格納されている))
+    console.log("node",d.data);
+    console.log("node",d.children); //子（見えてる）
+    console.log("node",d._children); //子(見えてない(格納されている))
       if(d.children||d._children){ 
         //節
         d.y = d.depth * 60; 
-        //子が葉？
-        // if(d.children.children){
-        // //  d.x = d.children.x;
-        // }else{
-        //   console.log(d.children.x);
-        //   //d.x = d.children.x;
-        // }
+        var temp_child;
+        if(d.children == null){
+          temp_child = d._children;
+        }else{
+          temp_child = d.children;
+        } 
+        //子が何個ある?
+        console.log("node",temp_child.length);
+        if(temp_child.length == 1){
+          console.log("node","extends node");
+          d.x = temp_child[0].x;
+          console.log("node",d.x);
+        }else{
+          console.log("node","mean node");
+          var sum = 0;
+          for(var child of temp_child){
+            console.log("node","child: " + child);
+            sum = sum + child.x;
+          }
+          d.x = sum / temp_child.length;
+          console.log("node",d.x);
+        }
       }else{
         //葉
-        //console.log(d.data);
-        //d.x0 = most_left_x + increment * i;
-        //i = i+1 ;
+        d.x = most_left_x + increment * i;
+        i = i+1 ;
         d.y = leaf_depth * 60;
+        console.log("node",d.x);
       }
     });
   // ノードデータをsvg要素に設定
