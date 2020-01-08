@@ -29,6 +29,7 @@ function toggle(d) {
 var leaf_depth;
 var leaf_size;
 var temp_root;
+var init_flag;
 // svg要素の初期化
 function svg_init(source) {
   //svgのg要素を一回まっさらに
@@ -37,6 +38,7 @@ function svg_init(source) {
   temp_root = source;
   leaf_depth = temp_root.height;
   leaf_size = 0;
+  init_flag = true;
   temp_root.eachAfter(function(d){
     if(!d.children && !d._children){
       leaf_size += 1;
@@ -103,12 +105,14 @@ function update(source) {
     });
   // ノードデータをsvg要素に設定
   console.log("enter",temp_root.descendants());
-    var node = g.selectAll('.node')
-      .data(temp_root.descendants(), function(d) { return d.id || (d.id = ++i); });
+
+    
+  var node = g.selectAll('.node')
+        .data(temp_root.descendants(), function(d) { return d.id || (d.id = ++i); });
 
     console.log("enter",node.enter());
   // ノード enter領域の設定
-    var nodeEnter = node
+  var nodeEnter = node
       .enter()
       .append("g")
       .attr("class", "node")
@@ -139,13 +143,21 @@ function update(source) {
     var nodeUpdate = nodeEnter.merge(node);
     var duration = 500;
 
-    nodeUpdate.transition()
-      .duration(duration)
-      .attr("transform", function(d) { 
-    //console.log("fuga"); 
-    console.log("(" + d.x +","+ d.y + ")に移動"); 
-    return "translate(" + d.x + "," + d.y + ")"; });
-
+    if(init_flag){
+      nodeUpdate
+        .attr("transform", function(d) { 
+          console.log(d); 
+          console.log("(" + d.x +","+ d.y + ")に移動"); 
+          return "translate(" + d.x + "," + d.y + ")"; });    
+    }else{
+      nodeUpdate
+        .transition()
+        .duration(duration)
+        .attr("transform", function(d) { 
+          console.log(d); 
+          console.log("(" + d.x +","+ d.y + ")に移動"); 
+          return "translate(" + d.x + "," + d.y + ")"; });
+    }
     nodeUpdate.select("rect")
     .attr("x",-30)
     .attr("y",-15)
@@ -163,8 +175,7 @@ function update(source) {
       .exit()
       .transition()
       .duration(duration)
-      .attr("transform", function(d) {   
-    return "translate(" + source.x + "," + source.y + ")"; })
+      .attr("transform", function(d) {return "translate(" + source.x + "," + source.y + ")"; })
       .remove();
 
     nodeExit.select("rect")
@@ -185,7 +196,7 @@ function update(source) {
 
     // リンク enter領域のsvg要素定義
     var linkEnter = link.enter().insert('path', "g")
-    .attr("class", "link")
+      .attr("class", "link")
       .attr("d", function(d) {
       console.log("link:enter");
       //console.log(d);
@@ -195,16 +206,30 @@ function update(source) {
     });
     // リンク enter+update領域の設定
     var linkUpdate = linkEnter.merge(link);
-    linkUpdate
-      .transition()
-    .duration(duration)
-    .attr("d", function(d) {
-    console.log("link:enter+update");
-    console.log("(" + d.source.x +","+ d.source.y + ")->" + "(" + d.target.x +","+ d.target.y + ")") 
-    //console.log(d.id);
-    return "M" + d.source.x + "," + d.source.y +        
-        "L" + (d.target.x ) + "," + (d.target.y);
-    });
+
+    if(init_flag){
+      linkUpdate
+        .attr("d", function(d) {
+        console.log("link:enter+update");
+        console.log("(" + d.source.x +","+ d.source.y + ")->" + "(" + d.target.x +","+ d.target.y + ")") 
+        //console.log(d.id);
+        return "M" + d.source.x + "," + d.source.y +        
+            "L" + (d.target.x ) + "," + (d.target.y);
+        });
+        init_flag = false;
+    }else{
+      linkUpdate
+        .transition()
+        .duration(duration)
+        .attr("d", function(d) {
+        console.log("link:enter+update");
+        console.log("(" + d.source.x +","+ d.source.y + ")->" + "(" + d.target.x +","+ d.target.y + ")") 
+        //console.log(d.id);
+        return "M" + d.source.x + "," + d.source.y +        
+            "L" + (d.target.x ) + "," + (d.target.y);
+        });
+    }
+    
     // リンク exit領域の設定
     link
       .exit()
