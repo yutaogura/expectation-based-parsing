@@ -1,3 +1,5 @@
+var predict_flag = false;
+
 function init() {
 
     $('.example').click(function(){     
@@ -68,8 +70,8 @@ function init() {
     var tree_array = [];
 
     $('#txt').bind('input', function() {
+        predict_flag = false;
         var s = $(this).val();
-
         var tokenStream = s.trim().split(' ');
 
         var rules = $('#grm').val().trim().split('\n')
@@ -130,9 +132,11 @@ function init() {
 
     });
 
-    $('#predict').on('click',function(){
-        var s = $('#txt').val();
 
+
+    $('#predict').on('click',function(){
+        predict_flag = true;
+        var s = $('#txt').val();
         var tokenStream = s.trim().split(' ');
         var rules = $('#grm').val().trim().split('\n')
         var grammar = new tinynlp.Grammar(rules);

@@ -96,10 +96,17 @@ function update(source) {
           console.log("node",d.x);
         }
       }else{
-        //葉
+        //葉なら下げる
+        
         d.x = most_left_x + increment * i;
         i = i+1 ;
-        d.y = leaf_depth * 60;
+        if(predict_flag && i == leaf_size ){
+          //最後の葉の時
+          d.y = d.depth * 60;
+        }else{
+          //最後の葉の時
+          d.y = leaf_depth * 60; 
+        }
         console.log("node",d.x);
       }
     });
@@ -134,7 +141,8 @@ function update(source) {
     nodeEnter.append("text")
     .attr("dy", "3")
     .attr("font-size", "150%")
-    .attr("fill",function(d){return d.children || d._children ? "black" : "red";})
+    .attr("fill",function(d){
+      return ( d.children || d._children ) ? "black" : "red";})
     .attr("text-anchor", function(d) { return d.children || d._children ? "middle" : "middle"; })
     .text(function(d) { console.log(d.data.name); return d.data.name; })
     .style("fill-opacity", 1e-6);
@@ -229,7 +237,7 @@ function update(source) {
             "L" + (d.target.x ) + "," + (d.target.y);
         });
     }
-    
+
     // リンク exit領域の設定
     link
       .exit()
