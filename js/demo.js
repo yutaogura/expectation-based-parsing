@@ -147,6 +147,7 @@ function init() {
             console.log(prediction_state[i].toString());
         }
         $('#dv').empty();
+        tree_array = [];
         var number_of_trees = 0;
         for(var k in prediction_state){
             if (prediction_state[k]) {
@@ -161,6 +162,7 @@ function init() {
                     root.x0 = width / 2;
                     console.log(root.x0);
                     root.y0 = 0;
+                    tree_array.push(root);
                     //$('#dv').append('<div class="tree" id="displayTree"><ul>' + display_predictTree(trees[i],predict[predict.length - 1]) + '</ul></div></br>');
                 }
             }
@@ -184,4 +186,18 @@ function init() {
         svg_init(tree_array[number - 1]);
     })
 
+    $('#pre').on('click',function(){
+        var now =  Number(document.getElementById('display_tree_num').value);
+        if(now > document.getElementById('display_tree_num').min ){
+            document.getElementById('display_tree_num').value = now - 1;
+            svg_init(tree_array[now - 1]);
+        }
+    })
+    $('#post').on('click',function(){
+        var now =  Number(document.getElementById('display_tree_num').value);
+        if(now < document.getElementById('display_tree_num').max ){
+            document.getElementById('display_tree_num').value = now + 1;
+            svg_init(tree_array[now - 1]);
+        }
+    })
 }
