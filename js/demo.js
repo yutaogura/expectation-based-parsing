@@ -194,14 +194,14 @@ function init() {
         var now =  Number(document.getElementById('display_tree_num').value);
         if(now > document.getElementById('display_tree_num').min ){
             document.getElementById('display_tree_num').value = now - 1;
-            svg_init(tree_array[now - 1]);
+            svg_init(tree_array[now - 2]);
         }
     })
     $('#post').on('click',function(){
         var now =  Number(document.getElementById('display_tree_num').value);
         if(now < document.getElementById('display_tree_num').max ){
             document.getElementById('display_tree_num').value = now + 1;
-            svg_init(tree_array[now - 1]);
+            svg_init(tree_array[now]);
         }
     })
 }
