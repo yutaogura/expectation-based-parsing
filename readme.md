@@ -2,7 +2,7 @@
 
 ## Note
 - min **6** pages ~ max **8** pages
-
+- application page -> https://yutaogura.github.io/incremental_parsing/
 ## Paragraph
 0. ABSTRACT 
     - 150~200 words
