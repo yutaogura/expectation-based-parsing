@@ -16,17 +16,15 @@
 
 1. GRAMMATICAL MODELS FOR JAZZ CHORD SEQUENCE
     
-    ジャズのコード進行を題材とした階層的な解析方法としてはHarasimらのものがある[^Harasim]
-
-    [Harasim]: A generalized parsing framework for generative models of harmonic syntax
+    ジャズのコード進行を題材とした階層的な解析方法としてはHarasimらのものがある[Harasim].本研究では，この手法をもとに漸進的な解析を行う．ここでは，Abstract Context-Free Grammar(ACFG)と採用したコード書き換え規則について説明する．
 
     1. abstract context free grammars
 
-        Daniel Harasim & Rohrmeierの論文について説明
+        Daniel HarasimらのACFGについて説明
 
     1. a generative syntax of jazz harmony
 
-        採用したコード書き換えルールについて説明
+        採用したコード書き換え規則について説明
         - prolongation
         - diatonic preparation
         - dominant preparation
@@ -39,25 +37,45 @@
 
 
 1. INCREMENTAL PARSING 
+    
+    漸進的構文解析の手法を説明する
     1. earley algorithm
 
-    1. incremental parsing 
+        アーリーアルゴリズムについて説明
 
-    1. inference of next chord sequence
+    1. incremental parsing 
+        
+        漸進的に解析するために，一つのコードが入力されるごとに解析を行うことに言及
+
+    1. inference of subsequent harmony structure
+
+        アーリー法で解析をする中で求めることができる後続の和声構造を表示
 
 1. IMPLEMENTATION
 
     実装したwebアプリケーションについて説明する
+    https://yutaogura.github.io/incremental_parsing/
 
 1. SAMPLE ANALYSIS and DISCUSSION
 
     1. sample analysis 
+
+        解析楽曲の例2つ(1つにするかも)
         1. take the A train
+            - 木の候補が入力の段階によって動的に変わること
+            - 予測が正しく行われていること
+            - 途中で非文となり，解析が不可能になりうること
         1. Satin Doll
 
     1. Discussion   
+        - 非文の取扱い
+        - 様相論理を用いた理論化
+        - 書き換え規則の妥当性，変更するとどうなるか
 
 
 1. CONCLUSION
-    結論
+    - [Harasim,Rohrmeier]らの論文をもとに，楽曲の和声構造を漸進的に解析する手法を考案した
+    - 上記の手法をwebシステムとして実装して，いくつかの楽曲で確認した
+    - (future work) 様相論理を用いた理論化，書き換え規則の妥当性の検証，コードの長さ（タイムスパン）を組み込む
+    - (application) 自動セッションシステムのようなインタラクティブに解析を必要とする応用製品に使えるかもしれない
 
