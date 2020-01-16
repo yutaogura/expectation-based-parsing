@@ -16,7 +16,7 @@
 
 1. GRAMMATICAL MODELS FOR JAZZ CHORD SEQUENCE
     
-    ジャズのコード進行を題材とした階層的な解析方法としてはHarasimらのものがある[Harasim]
+    ジャズのコード進行を題材とした階層的な解析方法としてはHarasimらのものがある[^Harasim]
 
     [Harasim]: A generalized parsing framework for generative models of harmonic syntax
 
