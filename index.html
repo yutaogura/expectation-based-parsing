@@ -232,23 +232,25 @@
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                             aria-labelledby="v-pills-home-tab">
                             <div class="overflow-auto" style="max-height: 600px;">
-                            <svg width="100%" height="600px"></svg> 
+                            <svg class="svg" width="100%" height="600px"></svg> 
                             </div>
                             chord sequence :<span id="display_sequence"> ---show chord sequence in this area--- </span>
-                            <div class="input-group p-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">next </span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="input next chord name!"
-                                    aria-label="..." aria-describedby="button-addon1 button-addon2" id="input-txt-area" value="Dmin7">
-                                <div class="input-group-append">
-                                    <button type="button" id="add-button" class="btn btn-outline-secondary">add</button>
+                            <div class="row">
+                                <div class="input-group col-sm-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">next </span>
                                     </div>
+                                    <input type="text" class="form-control" placeholder="input next chord name!"
+                                        aria-label="..." aria-describedby="button-addon1 button-addon2" id="input-txt-area" value="Dmin7">
+                                        <div class="input-group-append">
+                                        <button type="button" id="add-button" class="btn btn-outline-success">add</button>
+                                        </div>
+                                    </div>  
+                                <button type="button" id="back-button" class="btn btn-secondary">back</button>
+                                <button type="button" id="clear-all-button" class="btn btn-secondary">clear all</button>
                             </div>
-                            <button type="button" id="button-addon0" class="btn btn-outline-secondary">＜</button>
-                            <button type="button" id="button-addon1" class="btn btn-outline-secondary">＞</button>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel
                             aria-labelledby="v-pills-profile-tab">
                             <p>analysis of sample song2...</p>
                         </div>
