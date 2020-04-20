@@ -1,6 +1,7 @@
 var width = document.querySelector("svg").clientWidth;
 var height = document.querySelector("svg").clientHeight;
 var data = {};
+var vocabulary = ["Dmin7","G7","Emin7","A7","Amin7","D7","Abmin7","Db7","Cmaj7"]
 
 // 3. 描画用のデータ変換
 // temp_root = d3.hierarchy(data);
@@ -13,7 +14,7 @@ var tree = d3.tree()
 //.separation(function(a, b) { return(a.parent == b.parent ? 1 : 2); });
 
 // svg要素の配置
-g = d3.select("svg").append("g").attr("transform", "translate("+ 500 + ",30)"); //y方向に30だけ下げる
+g = d3.select("svg").append("g").attr("transform", "translate("+ width/2 + ",30)"); //y方向に30だけ下げる
 
 // クリック時の呼び出し関数
 function toggle(d) {
@@ -34,7 +35,7 @@ var init_flag;
 function svg_init(source) {
   //svgのg要素を一回まっさらに
   g.remove();
-  g = d3.select("svg").append("g").attr("transform", "translate("+ 500 + ",30)");
+  g = d3.select("svg").append("g").attr("transform", "translate("+ width/2 + ",30)");
   temp_root = source;
   leaf_depth = temp_root.height;
   leaf_size = 0;
@@ -47,6 +48,7 @@ function svg_init(source) {
   update(source)
 }
 
+
 // クリック時の呼び出し関数
 function toggle(d) {
   if(d.children) {
@@ -57,6 +59,8 @@ function toggle(d) {
     d._children = null;
   }
 }
+
+
 // svg要素の更新関数
 function update(source) {
   tree(temp_root);
@@ -71,7 +75,7 @@ function update(source) {
     console.log("node",d.children); //子（見えてる）
     console.log("node",d._children); //子(見えてない(格納されている))
       if(d.children||d._children){ 
-        //節
+        //節 or 未決定節
         d.y = d.depth * 60; 
         var temp_child;
         if(d.children == null){
@@ -97,15 +101,20 @@ function update(source) {
         }
       }else{
         //葉なら下げる
-        
         d.x = most_left_x + increment * i;
         i = i+1 ;
         if(predict_flag && i == leaf_size ){
-          //最後の葉の時
           d.y = d.depth * 60;
         }else{
-          //最後の葉の時
-          d.y = leaf_depth * 60; 
+          //葉が決定項の時
+          console.log("leaf",d.data.name);
+          if(vocabulary.indexOf(d.data.name) >= 0){
+            //葉が決定項の時 == カテゴリではない
+            console.log("leaf","decided term");
+            d.y = leaf_depth * 60; 
+          }else{
+            d.y = d.depth * 60;
+          }
         }
         console.log("node",d.x);
       }

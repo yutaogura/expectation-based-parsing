@@ -1,833 +1,276 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
+
 <head>
-	<meta charset="utf-8">
-	<title>Syntax Tree View</title>
-	<link rel="stylesheet" href="css/main.css">
-	<script type="stylesheet" src="css/style.css"></script>
-	<script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/earley-oop.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <meta charset="utf-8">
+    <title>ex-parsing app</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/my.css">
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    
 
 </head>
 
 <body onLoad="init()">
-	<header>
-		<h1>Incremental Parsing of Jazz Chord Progression</h1>
-	</header>	
-		<div class="parent">
-			<div class="top">
-				<h2>arrange grammar</h2>
-				<form name="myform">
-					<textarea name="output" cols="40" rows="13" id="grm">
-S -> I_C
-S -> I^o_C
-S -> I^7_C
-S -> ii_C
-S -> ii^o_C
-S -> ii^7_C
-S -> iii_C
-S -> iii^o_C
-S -> iii^7_C
-S -> IV_C
-S -> IV^o_C
-S -> IV^7_C
-S -> V_C
-S -> V^o_C
-S -> V^7_C
-S -> vi_C
-S -> vi^o_C
-S -> vi^7_C
-S -> vii_C
-S -> vii^o_C
-S -> vii^7_C
-I_C -> Cmaj7
-ii_C -> Dmin7
-iii_C -> Emin7
-IV_C -> Fmaj7
-V_C -> G7
-vi_C -> Amin7
-vii_C -> Bhdim7
-I^o_C -> Cdim7
-ii^o_C -> Ddim7
-iii^o_C -> Edim7
-IV^o_C -> Fdim7
-V^o_C -> Gdim7
-vi^o_C -> Adim7
-vii^o_C -> Bdim7
-I^7_C -> C7
-ii^7_C -> D7
-iii^7_C -> E7
-IV^7_C -> F7
-V^7_C -> G7
-vi^7_C -> A7
-vii^7_C -> B7
-S -> I_C#/Db
-S -> I^o_C#/Db
-S -> I^7_C#/Db
-S -> ii_C#/Db
-S -> ii^o_C#/Db
-S -> ii^7_C#/Db
-S -> iii_C#/Db
-S -> iii^o_C#/Db
-S -> iii^7_C#/Db
-S -> IV_C#/Db
-S -> IV^o_C#/Db
-S -> IV^7_C#/Db
-S -> V_C#/Db
-S -> V^o_C#/Db
-S -> V^7_C#/Db
-S -> vi_C#/Db
-S -> vi^o_C#/Db
-S -> vi^7_C#/Db
-S -> vii_C#/Db
-S -> vii^o_C#/Db
-S -> vii^7_C#/Db
-I_C#/Db -> C#/Dbmaj7
-ii_C#/Db -> D#/Ebmin7
-iii_C#/Db -> Fmin7
-IV_C#/Db -> F#/Gbmaj7
-V_C#/Db -> G#/Ab7
-vi_C#/Db -> A#/Bbmin7
-vii_C#/Db -> Chdim7
-I^o_C#/Db -> C#/Dbdim7
-ii^o_C#/Db -> D#/Ebdim7
-iii^o_C#/Db -> Fdim7
-IV^o_C#/Db -> F#/Gbdim7
-V^o_C#/Db -> G#/Abdim7
-vi^o_C#/Db -> A#/Bbdim7
-vii^o_C#/Db -> Cdim7
-I^7_C#/Db -> C#/Db7
-ii^7_C#/Db -> D#/Eb7
-iii^7_C#/Db -> F7
-IV^7_C#/Db -> F#/Gb7
-V^7_C#/Db -> G#/Ab7
-vi^7_C#/Db -> A#/Bb7
-vii^7_C#/Db -> C7
-S -> I_D
-S -> I^o_D
-S -> I^7_D
-S -> ii_D
-S -> ii^o_D
-S -> ii^7_D
-S -> iii_D
-S -> iii^o_D
-S -> iii^7_D
-S -> IV_D
-S -> IV^o_D
-S -> IV^7_D
-S -> V_D
-S -> V^o_D
-S -> V^7_D
-S -> vi_D
-S -> vi^o_D
-S -> vi^7_D
-S -> vii_D
-S -> vii^o_D
-S -> vii^7_D
-I_D -> Dmaj7
-ii_D -> Emin7
-iii_D -> F#/Gbmin7
-IV_D -> Gmaj7
-V_D -> A7
-vi_D -> Bmin7
-vii_D -> C#/Dbhdim7
-I^o_D -> Ddim7
-ii^o_D -> Edim7
-iii^o_D -> F#/Gbdim7
-IV^o_D -> Gdim7
-V^o_D -> Adim7
-vi^o_D -> Bdim7
-vii^o_D -> C#/Dbdim7
-I^7_D -> D7
-ii^7_D -> E7
-iii^7_D -> F#/Gb7
-IV^7_D -> G7
-V^7_D -> A7
-vi^7_D -> B7
-vii^7_D -> C#/Db7
-S -> I_D#/Eb
-S -> I^o_D#/Eb
-S -> I^7_D#/Eb
-S -> ii_D#/Eb
-S -> ii^o_D#/Eb
-S -> ii^7_D#/Eb
-S -> iii_D#/Eb
-S -> iii^o_D#/Eb
-S -> iii^7_D#/Eb
-S -> IV_D#/Eb
-S -> IV^o_D#/Eb
-S -> IV^7_D#/Eb
-S -> V_D#/Eb
-S -> V^o_D#/Eb
-S -> V^7_D#/Eb
-S -> vi_D#/Eb
-S -> vi^o_D#/Eb
-S -> vi^7_D#/Eb
-S -> vii_D#/Eb
-S -> vii^o_D#/Eb
-S -> vii^7_D#/Eb
-I_D#/Eb -> D#/Ebmaj7
-ii_D#/Eb -> Fmin7
-iii_D#/Eb -> Gmin7
-IV_D#/Eb -> G#/Abmaj7
-V_D#/Eb -> A#/Bb7
-vi_D#/Eb -> Cmin7
-vii_D#/Eb -> Dhdim7
-I^o_D#/Eb -> D#/Ebdim7
-ii^o_D#/Eb -> Fdim7
-iii^o_D#/Eb -> Gdim7
-IV^o_D#/Eb -> G#/Abdim7
-V^o_D#/Eb -> A#/Bbdim7
-vi^o_D#/Eb -> Cdim7
-vii^o_D#/Eb -> Ddim7
-I^7_D#/Eb -> D#/Eb7
-ii^7_D#/Eb -> F7
-iii^7_D#/Eb -> G7
-IV^7_D#/Eb -> G#/Ab7
-V^7_D#/Eb -> A#/Bb7
-vi^7_D#/Eb -> C7
-vii^7_D#/Eb -> D7
-S -> I_E
-S -> I^o_E
-S -> I^7_E
-S -> ii_E
-S -> ii^o_E
-S -> ii^7_E
-S -> iii_E
-S -> iii^o_E
-S -> iii^7_E
-S -> IV_E
-S -> IV^o_E
-S -> IV^7_E
-S -> V_E
-S -> V^o_E
-S -> V^7_E
-S -> vi_E
-S -> vi^o_E
-S -> vi^7_E
-S -> vii_E
-S -> vii^o_E
-S -> vii^7_E
-I_E -> Emaj7
-ii_E -> F#/Gbmin7
-iii_E -> G#/Abmin7
-IV_E -> Amaj7
-V_E -> B7
-vi_E -> C#/Dbmin7
-vii_E -> D#/Ebhdim7
-I^o_E -> Edim7
-ii^o_E -> F#/Gbdim7
-iii^o_E -> G#/Abdim7
-IV^o_E -> Adim7
-V^o_E -> Bdim7
-vi^o_E -> C#/Dbdim7
-vii^o_E -> D#/Ebdim7
-I^7_E -> E7
-ii^7_E -> F#/Gb7
-iii^7_E -> G#/Ab7
-IV^7_E -> A7
-V^7_E -> B7
-vi^7_E -> C#/Db7
-vii^7_E -> D#/Eb7
-S -> I_F
-S -> I^o_F
-S -> I^7_F
-S -> ii_F
-S -> ii^o_F
-S -> ii^7_F
-S -> iii_F
-S -> iii^o_F
-S -> iii^7_F
-S -> IV_F
-S -> IV^o_F
-S -> IV^7_F
-S -> V_F
-S -> V^o_F
-S -> V^7_F
-S -> vi_F
-S -> vi^o_F
-S -> vi^7_F
-S -> vii_F
-S -> vii^o_F
-S -> vii^7_F
-I_F -> Fmaj7
-ii_F -> Gmin7
-iii_F -> Amin7
-IV_F -> A#/Bbmaj7
-V_F -> C7
-vi_F -> Dmin7
-vii_F -> Ehdim7
-I^o_F -> Fdim7
-ii^o_F -> Gdim7
-iii^o_F -> Adim7
-IV^o_F -> A#/Bbdim7
-V^o_F -> Cdim7
-vi^o_F -> Ddim7
-vii^o_F -> Edim7
-I^7_F -> F7
-ii^7_F -> G7
-iii^7_F -> A7
-IV^7_F -> A#/Bb7
-V^7_F -> C7
-vi^7_F -> D7
-vii^7_F -> E7
-S -> I_F#/Gb
-S -> I^o_F#/Gb
-S -> I^7_F#/Gb
-S -> ii_F#/Gb
-S -> ii^o_F#/Gb
-S -> ii^7_F#/Gb
-S -> iii_F#/Gb
-S -> iii^o_F#/Gb
-S -> iii^7_F#/Gb
-S -> IV_F#/Gb
-S -> IV^o_F#/Gb
-S -> IV^7_F#/Gb
-S -> V_F#/Gb
-S -> V^o_F#/Gb
-S -> V^7_F#/Gb
-S -> vi_F#/Gb
-S -> vi^o_F#/Gb
-S -> vi^7_F#/Gb
-S -> vii_F#/Gb
-S -> vii^o_F#/Gb
-S -> vii^7_F#/Gb
-I_F#/Gb -> F#/Gbmaj7
-ii_F#/Gb -> G#/Abmin7
-iii_F#/Gb -> A#/Bbmin7
-IV_F#/Gb -> Bmaj7
-V_F#/Gb -> C#/Db7
-vi_F#/Gb -> D#/Ebmin7
-vii_F#/Gb -> Fhdim7
-I^o_F#/Gb -> F#/Gbdim7
-ii^o_F#/Gb -> G#/Abdim7
-iii^o_F#/Gb -> A#/Bbdim7
-IV^o_F#/Gb -> Bdim7
-V^o_F#/Gb -> C#/Dbdim7
-vi^o_F#/Gb -> D#/Ebdim7
-vii^o_F#/Gb -> Fdim7
-I^7_F#/Gb -> F#/Gb7
-ii^7_F#/Gb -> G#/Ab7
-iii^7_F#/Gb -> A#/Bb7
-IV^7_F#/Gb -> B7
-V^7_F#/Gb -> C#/Db7
-vi^7_F#/Gb -> D#/Eb7
-vii^7_F#/Gb -> F7
-S -> I_G
-S -> I^o_G
-S -> I^7_G
-S -> ii_G
-S -> ii^o_G
-S -> ii^7_G
-S -> iii_G
-S -> iii^o_G
-S -> iii^7_G
-S -> IV_G
-S -> IV^o_G
-S -> IV^7_G
-S -> V_G
-S -> V^o_G
-S -> V^7_G
-S -> vi_G
-S -> vi^o_G
-S -> vi^7_G
-S -> vii_G
-S -> vii^o_G
-S -> vii^7_G
-I_G -> Gmaj7
-ii_G -> Amin7
-iii_G -> Bmin7
-IV_G -> Cmaj7
-V_G -> D7
-vi_G -> Emin7
-vii_G -> F#/Gbhdim7
-I^o_G -> Gdim7
-ii^o_G -> Adim7
-iii^o_G -> Bdim7
-IV^o_G -> Cdim7
-V^o_G -> Ddim7
-vi^o_G -> Edim7
-vii^o_G -> F#/Gbdim7
-I^7_G -> G7
-ii^7_G -> A7
-iii^7_G -> B7
-IV^7_G -> C7
-V^7_G -> D7
-vi^7_G -> E7
-vii^7_G -> F#/Gb7
-S -> I_G#/Ab
-S -> I^o_G#/Ab
-S -> I^7_G#/Ab
-S -> ii_G#/Ab
-S -> ii^o_G#/Ab
-S -> ii^7_G#/Ab
-S -> iii_G#/Ab
-S -> iii^o_G#/Ab
-S -> iii^7_G#/Ab
-S -> IV_G#/Ab
-S -> IV^o_G#/Ab
-S -> IV^7_G#/Ab
-S -> V_G#/Ab
-S -> V^o_G#/Ab
-S -> V^7_G#/Ab
-S -> vi_G#/Ab
-S -> vi^o_G#/Ab
-S -> vi^7_G#/Ab
-S -> vii_G#/Ab
-S -> vii^o_G#/Ab
-S -> vii^7_G#/Ab
-I_G#/Ab -> G#/Abmaj7
-ii_G#/Ab -> A#/Bbmin7
-iii_G#/Ab -> Cmin7
-IV_G#/Ab -> C#/Dbmaj7
-V_G#/Ab -> D#/Eb7
-vi_G#/Ab -> Fmin7
-vii_G#/Ab -> Ghdim7
-I^o_G#/Ab -> G#/Abdim7
-ii^o_G#/Ab -> A#/Bbdim7
-iii^o_G#/Ab -> Cdim7
-IV^o_G#/Ab -> C#/Dbdim7
-V^o_G#/Ab -> D#/Ebdim7
-vi^o_G#/Ab -> Fdim7
-vii^o_G#/Ab -> Gdim7
-I^7_G#/Ab -> G#/Ab7
-ii^7_G#/Ab -> A#/Bb7
-iii^7_G#/Ab -> C7
-IV^7_G#/Ab -> C#/Db7
-V^7_G#/Ab -> D#/Eb7
-vi^7_G#/Ab -> F7
-vii^7_G#/Ab -> G7
-S -> I_A
-S -> I^o_A
-S -> I^7_A
-S -> ii_A
-S -> ii^o_A
-S -> ii^7_A
-S -> iii_A
-S -> iii^o_A
-S -> iii^7_A
-S -> IV_A
-S -> IV^o_A
-S -> IV^7_A
-S -> V_A
-S -> V^o_A
-S -> V^7_A
-S -> vi_A
-S -> vi^o_A
-S -> vi^7_A
-S -> vii_A
-S -> vii^o_A
-S -> vii^7_A
-I_A -> Amaj7
-ii_A -> Bmin7
-iii_A -> C#/Dbmin7
-IV_A -> Dmaj7
-V_A -> E7
-vi_A -> F#/Gbmin7
-vii_A -> G#/Abhdim7
-I^o_A -> Adim7
-ii^o_A -> Bdim7
-iii^o_A -> C#/Dbdim7
-IV^o_A -> Ddim7
-V^o_A -> Edim7
-vi^o_A -> F#/Gbdim7
-vii^o_A -> G#/Abdim7
-I^7_A -> A7
-ii^7_A -> B7
-iii^7_A -> C#/Db7
-IV^7_A -> D7
-V^7_A -> E7
-vi^7_A -> F#/Gb7
-vii^7_A -> G#/Ab7
-S -> I_A#/Bb
-S -> I^o_A#/Bb
-S -> I^7_A#/Bb
-S -> ii_A#/Bb
-S -> ii^o_A#/Bb
-S -> ii^7_A#/Bb
-S -> iii_A#/Bb
-S -> iii^o_A#/Bb
-S -> iii^7_A#/Bb
-S -> IV_A#/Bb
-S -> IV^o_A#/Bb
-S -> IV^7_A#/Bb
-S -> V_A#/Bb
-S -> V^o_A#/Bb
-S -> V^7_A#/Bb
-S -> vi_A#/Bb
-S -> vi^o_A#/Bb
-S -> vi^7_A#/Bb
-S -> vii_A#/Bb
-S -> vii^o_A#/Bb
-S -> vii^7_A#/Bb
-I_A#/Bb -> A#/Bbmaj7
-ii_A#/Bb -> Cmin7
-iii_A#/Bb -> Dmin7
-IV_A#/Bb -> D#/Ebmaj7
-V_A#/Bb -> F7
-vi_A#/Bb -> Gmin7
-vii_A#/Bb -> Ahdim7
-I^o_A#/Bb -> A#/Bbdim7
-ii^o_A#/Bb -> Cdim7
-iii^o_A#/Bb -> Ddim7
-IV^o_A#/Bb -> D#/Ebdim7
-V^o_A#/Bb -> Fdim7
-vi^o_A#/Bb -> Gdim7
-vii^o_A#/Bb -> Adim7
-I^7_A#/Bb -> A#/Bb7
-ii^7_A#/Bb -> C7
-iii^7_A#/Bb -> D7
-IV^7_A#/Bb -> D#/Eb7
-V^7_A#/Bb -> F7
-vi^7_A#/Bb -> G7
-vii^7_A#/Bb -> A7
-S -> I_B
-S -> I^o_B
-S -> I^7_B
-S -> ii_B
-S -> ii^o_B
-S -> ii^7_B
-S -> iii_B
-S -> iii^o_B
-S -> iii^7_B
-S -> IV_B
-S -> IV^o_B
-S -> IV^7_B
-S -> V_B
-S -> V^o_B
-S -> V^7_B
-S -> vi_B
-S -> vi^o_B
-S -> vi^7_B
-S -> vii_B
-S -> vii^o_B
-S -> vii^7_B
-I_B -> Bmaj7
-ii_B -> C#/Dbmin7
-iii_B -> D#/Ebmin7
-IV_B -> Emaj7
-V_B -> F#/Gb7
-vi_B -> G#/Abmin7
-vii_B -> A#/Bbhdim7
-I^o_B -> Bdim7
-ii^o_B -> C#/Dbdim7
-iii^o_B -> D#/Ebdim7
-IV^o_B -> Edim7
-V^o_B -> F#/Gbdim7
-vi^o_B -> G#/Abdim7
-vii^o_B -> A#/Bbdim7
-I^7_B -> B7
-ii^7_B -> C#/Db7
-iii^7_B -> D#/Eb7
-IV^7_B -> E7
-V^7_B -> F#/Gb7
-vi^7_B -> G#/Ab7
-vii^7_B -> A#/Bb7
-I_C -> I_C I_C
-ii_C -> ii_C ii_C
-iii_C -> iii_C iii_C
-IV_C -> IV_C IV_C
-V_C -> V_C V_C
-vi_C -> vi_C vi_C
-vii_C -> vii_C vii_C
-I_C#/Db -> I_C#/Db I_C#/Db
-ii_C#/Db -> ii_C#/Db ii_C#/Db
-iii_C#/Db -> iii_C#/Db iii_C#/Db
-IV_C#/Db -> IV_C#/Db IV_C#/Db
-V_C#/Db -> V_C#/Db V_C#/Db
-vi_C#/Db -> vi_C#/Db vi_C#/Db
-vii_C#/Db -> vii_C#/Db vii_C#/Db
-I_D -> I_D I_D
-ii_D -> ii_D ii_D
-iii_D -> iii_D iii_D
-IV_D -> IV_D IV_D
-V_D -> V_D V_D
-vi_D -> vi_D vi_D
-vii_D -> vii_D vii_D
-I_D#/Eb -> I_D#/Eb I_D#/Eb
-ii_D#/Eb -> ii_D#/Eb ii_D#/Eb
-iii_D#/Eb -> iii_D#/Eb iii_D#/Eb
-IV_D#/Eb -> IV_D#/Eb IV_D#/Eb
-V_D#/Eb -> V_D#/Eb V_D#/Eb
-vi_D#/Eb -> vi_D#/Eb vi_D#/Eb
-vii_D#/Eb -> vii_D#/Eb vii_D#/Eb
-I_E -> I_E I_E
-ii_E -> ii_E ii_E
-iii_E -> iii_E iii_E
-IV_E -> IV_E IV_E
-V_E -> V_E V_E
-vi_E -> vi_E vi_E
-vii_E -> vii_E vii_E
-I_F -> I_F I_F
-ii_F -> ii_F ii_F
-iii_F -> iii_F iii_F
-IV_F -> IV_F IV_F
-V_F -> V_F V_F
-vi_F -> vi_F vi_F
-vii_F -> vii_F vii_F
-I_F#/Gb -> I_F#/Gb I_F#/Gb
-ii_F#/Gb -> ii_F#/Gb ii_F#/Gb
-iii_F#/Gb -> iii_F#/Gb iii_F#/Gb
-IV_F#/Gb -> IV_F#/Gb IV_F#/Gb
-V_F#/Gb -> V_F#/Gb V_F#/Gb
-vi_F#/Gb -> vi_F#/Gb vi_F#/Gb
-vii_F#/Gb -> vii_F#/Gb vii_F#/Gb
-I_G -> I_G I_G
-ii_G -> ii_G ii_G
-iii_G -> iii_G iii_G
-IV_G -> IV_G IV_G
-V_G -> V_G V_G
-vi_G -> vi_G vi_G
-vii_G -> vii_G vii_G
-I_G#/Ab -> I_G#/Ab I_G#/Ab
-ii_G#/Ab -> ii_G#/Ab ii_G#/Ab
-iii_G#/Ab -> iii_G#/Ab iii_G#/Ab
-IV_G#/Ab -> IV_G#/Ab IV_G#/Ab
-V_G#/Ab -> V_G#/Ab V_G#/Ab
-vi_G#/Ab -> vi_G#/Ab vi_G#/Ab
-vii_G#/Ab -> vii_G#/Ab vii_G#/Ab
-I_A -> I_A I_A
-ii_A -> ii_A ii_A
-iii_A -> iii_A iii_A
-IV_A -> IV_A IV_A
-V_A -> V_A V_A
-vi_A -> vi_A vi_A
-vii_A -> vii_A vii_A
-I_A#/Bb -> I_A#/Bb I_A#/Bb
-ii_A#/Bb -> ii_A#/Bb ii_A#/Bb
-iii_A#/Bb -> iii_A#/Bb iii_A#/Bb
-IV_A#/Bb -> IV_A#/Bb IV_A#/Bb
-V_A#/Bb -> V_A#/Bb V_A#/Bb
-vi_A#/Bb -> vi_A#/Bb vi_A#/Bb
-vii_A#/Bb -> vii_A#/Bb vii_A#/Bb
-I_B -> I_B I_B
-ii_B -> ii_B ii_B
-iii_B -> iii_B iii_B
-IV_B -> IV_B IV_B
-V_B -> V_B V_B
-vi_B -> vi_B vi_B
-vii_B -> vii_B vii_B
-I_C -> V_C I_C
-ii_C -> vi_C ii_C
-iii_C -> vii_C iii_C
-IV_C -> I_C IV_C
-V_C -> ii_C V_C
-vi_C -> iii_C vi_C
-vii_C -> IV_C vii_C
-V_C -> IV_C V_C
-I_C -> V^7_C I_C
-ii_C -> V^7_D ii_C
-iii_C -> V^7_E iii_C
-IV_C -> V^7_F IV_C
-V_C -> V^7_G V_C
-vi_C -> V^7_A vi_C
-vii_C -> V^7_B vii_C
-I_C#/Db -> V_C#/Db I_C#/Db
-ii_C#/Db -> vi_C#/Db ii_C#/Db
-iii_C#/Db -> vii_C#/Db iii_C#/Db
-IV_C#/Db -> I_C#/Db IV_C#/Db
-V_C#/Db -> ii_C#/Db V_C#/Db
-vi_C#/Db -> iii_C#/Db vi_C#/Db
-vii_C#/Db -> IV_C#/Db vii_C#/Db
-V_C#/Db -> IV_C#/Db V_C#/Db
-I_C#/Db -> V^7_C I_C#/Db
-ii_C#/Db -> V^7_D ii_C#/Db
-iii_C#/Db -> V^7_E iii_C#/Db
-IV_C#/Db -> V^7_F IV_C#/Db
-V_C#/Db -> V^7_G V_C#/Db
-vi_C#/Db -> V^7_A vi_C#/Db
-vii_C#/Db -> V^7_B vii_C#/Db
-I_D -> V_D I_D
-ii_D -> vi_D ii_D
-iii_D -> vii_D iii_D
-IV_D -> I_D IV_D
-V_D -> ii_D V_D
-vi_D -> iii_D vi_D
-vii_D -> IV_D vii_D
-V_D -> IV_D V_D
-I_D -> V^7_C I_D
-ii_D -> V^7_D ii_D
-iii_D -> V^7_E iii_D
-IV_D -> V^7_F IV_D
-V_D -> V^7_G V_D
-vi_D -> V^7_A vi_D
-vii_D -> V^7_B vii_D
-I_D#/Eb -> V_D#/Eb I_D#/Eb
-ii_D#/Eb -> vi_D#/Eb ii_D#/Eb
-iii_D#/Eb -> vii_D#/Eb iii_D#/Eb
-IV_D#/Eb -> I_D#/Eb IV_D#/Eb
-V_D#/Eb -> ii_D#/Eb V_D#/Eb
-vi_D#/Eb -> iii_D#/Eb vi_D#/Eb
-vii_D#/Eb -> IV_D#/Eb vii_D#/Eb
-V_D#/Eb -> IV_D#/Eb V_D#/Eb
-I_D#/Eb -> V^7_C I_D#/Eb
-ii_D#/Eb -> V^7_D ii_D#/Eb
-iii_D#/Eb -> V^7_E iii_D#/Eb
-IV_D#/Eb -> V^7_F IV_D#/Eb
-V_D#/Eb -> V^7_G V_D#/Eb
-vi_D#/Eb -> V^7_A vi_D#/Eb
-vii_D#/Eb -> V^7_B vii_D#/Eb
-I_E -> V_E I_E
-ii_E -> vi_E ii_E
-iii_E -> vii_E iii_E
-IV_E -> I_E IV_E
-V_E -> ii_E V_E
-vi_E -> iii_E vi_E
-vii_E -> IV_E vii_E
-V_E -> IV_E V_E
-I_E -> V^7_C I_E
-ii_E -> V^7_D ii_E
-iii_E -> V^7_E iii_E
-IV_E -> V^7_F IV_E
-V_E -> V^7_G V_E
-vi_E -> V^7_A vi_E
-vii_E -> V^7_B vii_E
-I_F -> V_F I_F
-ii_F -> vi_F ii_F
-iii_F -> vii_F iii_F
-IV_F -> I_F IV_F
-V_F -> ii_F V_F
-vi_F -> iii_F vi_F
-vii_F -> IV_F vii_F
-V_F -> IV_F V_F
-I_F -> V^7_C I_F
-ii_F -> V^7_D ii_F
-iii_F -> V^7_E iii_F
-IV_F -> V^7_F IV_F
-V_F -> V^7_G V_F
-vi_F -> V^7_A vi_F
-vii_F -> V^7_B vii_F
-I_F#/Gb -> V_F#/Gb I_F#/Gb
-ii_F#/Gb -> vi_F#/Gb ii_F#/Gb
-iii_F#/Gb -> vii_F#/Gb iii_F#/Gb
-IV_F#/Gb -> I_F#/Gb IV_F#/Gb
-V_F#/Gb -> ii_F#/Gb V_F#/Gb
-vi_F#/Gb -> iii_F#/Gb vi_F#/Gb
-vii_F#/Gb -> IV_F#/Gb vii_F#/Gb
-V_F#/Gb -> IV_F#/Gb V_F#/Gb
-I_F#/Gb -> V^7_C I_F#/Gb
-ii_F#/Gb -> V^7_D ii_F#/Gb
-iii_F#/Gb -> V^7_E iii_F#/Gb
-IV_F#/Gb -> V^7_F IV_F#/Gb
-V_F#/Gb -> V^7_G V_F#/Gb
-vi_F#/Gb -> V^7_A vi_F#/Gb
-vii_F#/Gb -> V^7_B vii_F#/Gb
-I_G -> V_G I_G
-ii_G -> vi_G ii_G
-iii_G -> vii_G iii_G
-IV_G -> I_G IV_G
-V_G -> ii_G V_G
-vi_G -> iii_G vi_G
-vii_G -> IV_G vii_G
-V_G -> IV_G V_G
-I_G -> V^7_C I_G
-ii_G -> V^7_D ii_G
-iii_G -> V^7_E iii_G
-IV_G -> V^7_F IV_G
-V_G -> V^7_G V_G
-vi_G -> V^7_A vi_G
-vii_G -> V^7_B vii_G
-I_G#/Ab -> V_G#/Ab I_G#/Ab
-ii_G#/Ab -> vi_G#/Ab ii_G#/Ab
-iii_G#/Ab -> vii_G#/Ab iii_G#/Ab
-IV_G#/Ab -> I_G#/Ab IV_G#/Ab
-V_G#/Ab -> ii_G#/Ab V_G#/Ab
-vi_G#/Ab -> iii_G#/Ab vi_G#/Ab
-vii_G#/Ab -> IV_G#/Ab vii_G#/Ab
-V_G#/Ab -> IV_G#/Ab V_G#/Ab
-I_G#/Ab -> V^7_C I_G#/Ab
-ii_G#/Ab -> V^7_D ii_G#/Ab
-iii_G#/Ab -> V^7_E iii_G#/Ab
-IV_G#/Ab -> V^7_F IV_G#/Ab
-V_G#/Ab -> V^7_G V_G#/Ab
-vi_G#/Ab -> V^7_A vi_G#/Ab
-vii_G#/Ab -> V^7_B vii_G#/Ab
-I_A -> V_A I_A
-ii_A -> vi_A ii_A
-iii_A -> vii_A iii_A
-IV_A -> I_A IV_A
-V_A -> ii_A V_A
-vi_A -> iii_A vi_A
-vii_A -> IV_A vii_A
-V_A -> IV_A V_A
-I_A -> V^7_C I_A
-ii_A -> V^7_D ii_A
-iii_A -> V^7_E iii_A
-IV_A -> V^7_F IV_A
-V_A -> V^7_G V_A
-vi_A -> V^7_A vi_A
-vii_A -> V^7_B vii_A
-I_A#/Bb -> V_A#/Bb I_A#/Bb
-ii_A#/Bb -> vi_A#/Bb ii_A#/Bb
-iii_A#/Bb -> vii_A#/Bb iii_A#/Bb
-IV_A#/Bb -> I_A#/Bb IV_A#/Bb
-V_A#/Bb -> ii_A#/Bb V_A#/Bb
-vi_A#/Bb -> iii_A#/Bb vi_A#/Bb
-vii_A#/Bb -> IV_A#/Bb vii_A#/Bb
-V_A#/Bb -> IV_A#/Bb V_A#/Bb
-I_A#/Bb -> V^7_C I_A#/Bb
-ii_A#/Bb -> V^7_D ii_A#/Bb
-iii_A#/Bb -> V^7_E iii_A#/Bb
-IV_A#/Bb -> V^7_F IV_A#/Bb
-V_A#/Bb -> V^7_G V_A#/Bb
-vi_A#/Bb -> V^7_A vi_A#/Bb
-vii_A#/Bb -> V^7_B vii_A#/Bb
-I_B -> V_B I_B
-ii_B -> vi_B ii_B
-iii_B -> vii_B iii_B
-IV_B -> I_B IV_B
-V_B -> ii_B V_B
-vi_B -> iii_B vi_B
-vii_B -> IV_B vii_B
-V_B -> IV_B V_B
-I_B -> V^7_C I_B
-ii_B -> V^7_D ii_B
-iii_B -> V^7_E iii_B
-IV_B -> V^7_F IV_B
-V_B -> V^7_G V_B
-vi_B -> V^7_A vi_B
-vii_B -> V^7_B vii_B
-					</textarea>
-					<input name="myfile" type="file">
-				</form>
-				<h2>Take the A Train</h2>
-				<image src="atrain.jpeg" alt="take the A train" title="take the A train" width="400" height="500" > 
-		
-				<div class="part_parent">
-					<div class="part">
-						A PART<br/>
-						<a href="#" class="example">Cmaj7</a> <br/>
-						<a href="#" class="example">Cmaj7 D7</a> <br/>
-						<a href="#" class="example">Cmaj7 D7 Dmin7</a> <br/>
-						<a href="#" class="example">Cmaj7 D7 Dmin7 G7</a> <br/>
-						<a href="#" class="example">Cmaj7 D7 Dmin7 G7 Cmaj7</a> <br/>
-					</div>
-					<div class="part">
-						B PART<br/>
-						<a href="#" class="example">Fmaj7</a> <br/>
-						<a href="#" class="example">Fmaj7 D7</a> <br/>
-						<a href="#" class="example">Fmaj7 D7 Dmin7</a> <br/>
-						<a href="#" class="example">Fmaj7 D7 Dmin7 G7</a> <br/>
-						<a href="#" class="example">Fmaj7 D7 Dmin7 G7 G7</a> <br/>
-						<a href="#" class="example">Fmaj7 D7 Dmin7 G7 G7 Cmaj7</a> <br/>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<input type="text" size="50" id="txt"/>
-		<button type="button" id="predict" >predict</button>
-		<hr>
-		<h1>RESULT</h1> candidate trees：<input name="number_of_trees" type="number" value=0 id="num" readonly="disabled" /> 
-		current tree No. : 
-		<button type="button" id="pre"> &lt; </button>
-		<input type="number" size="5" id="display_tree_num" value="0" min="0" max="0" />
-		<button type="button" id="post"> &gt; </button>
-		<br>
-		<br>
-		<svg width="1000" height="600"></svg>
-		<script type="text/javascript" src="js/demo.js"></script>
-		<script src="js/sample.js"></script>
-	</body>
+    <h1>Expectaion-based Parsing Analysis App</h1>
+    <div class="container-fluid">
+        <h3>Grammar setting</h3>
+        <!-- <div class="btn-group-lg btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">C
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">C#
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">D
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">D#
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">E
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">F
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">F#
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">G
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">G#
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">A
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">A#
+            </label>
+            <label class="btn btn-outline-success">
+                <input type="checkbox" autocomplete="off">B
+            </label>
+        </div> -->
+        <div class="border rounded">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active h5" id="nav-start-tab" data-toggle="tab" href="#nav-start"
+                        role="tab" aria-controls="nav-start" aria-selected="true">start rule</a>
+                    <a class="nav-item nav-link h5 " id="nav-preparation-tab" data-toggle="tab" href="#nav-preparation"
+                        role="tab" aria-controls="nav-preparation" aria-selected="false">preparation rule</a>
+                    <a class="nav-item nav-link h5" id="nav-replace-tab" data-toggle="tab" href="#nav-replace"
+                        role="tab" aria-controls="nav-replace" aria-selected="false">replace rule</a>
+                    <a class="nav-item nav-link h5" id="nav-key-tab" data-toggle="tab" href="#nav-key"
+                        role="tab" aria-controls="nav-key" aria-selected="false">key setting</a>
+                </div>
+            </nav>
+
+            <div class="tab-content mt-3" id="nav-tabContent">
+                <div class="tab-pane active" id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                            value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            only tonic "I" 
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                            value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            allow all degree chord
+                        </label>
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-preparation" role="tabpanel" aria-labelledby="nav-preparation-tab">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="exampleRadioss" id="exampleRadios1"
+                            value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            I -> V I
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="exampleRadioss" id="exampleRadios2"
+                            value="option2" checked>
+                        <label class="form-check-label" for="exampleRadios2">
+                            V -> II V
+                        </label>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-replace" role="tabpanel" aria-labelledby="nav-replace-tab">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadiosss" id="exampleRadios1"
+                            value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            c
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadiosss" id="exampleRadios2"
+                            value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            d
+                        </label>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="nav-key" role="tabpanel" aria-labelledby="nav-key-tab">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios1"
+                            value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            C
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios2"
+                            value="option2" checked>
+                        <label class="form-check-label" for="exampleRadios2">
+                            C#
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios3"
+                            value="option3" checked>
+                        <label class="form-check-label" for="exampleRadios3">
+                            D
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios4"
+                            value="option4" checked>
+                        <label class="form-check-label" for="exampleRadios4">
+                            D#
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios5"
+                            value="option5" checked>
+                        <label class="form-check-label" for="exampleRadios5">
+                            E
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios6"
+                            value="option6" checked>
+                        <label class="form-check-label" for="exampleRadios6">
+                            F
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios7"
+                            value="option7" checked>
+                        <label class="form-check-label" for="exampleRadios7">
+                            F#
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios8"
+                            value="option8" checked>
+                        <label class="form-check-label" for="exampleRadios8">
+                            G
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios9"
+                            value="option9" checked>
+                        <label class="form-check-label" for="exampleRadios9">
+                            G#
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios10"
+                            value="option10" checked>
+                        <label class="form-check-label" for="exampleRadios10">
+                            A
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios11"
+                            value="option11" checked>
+                        <label class="form-check-label" for="exampleRadios11">
+                            A#
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios12"
+                            value="option12" checked>
+                        <label class="form-check-label" for="exampleRadios12">
+                            B
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h3>
+            Tree Analysis
+        </h3>
+        <div class="border">
+            <div class="row no-gutters">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills nav-fill" id="v-pills-tab" role="tablist"
+                        aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
+                            role="tab" aria-controls="v-pills-home" aria-selected="true">take the A train</a>
+                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                            role="tab" aria-controls="v-pills-profile" aria-selected="false">satin doll</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false">autumn leaves</a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
+                            role="tab" aria-controls="v-pills-settings" aria-selected="false">custom song</a>
+                    </div>
+                </div>
+                <div class="col-9 border-left">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                            aria-labelledby="v-pills-home-tab">
+                            <div class="overflow-auto" style="max-height: 600px;">
+                            <svg width="100%" height="600px"></svg> 
+                            </div>
+                            chord sequence :<span id="display_sequence"> ---show chord sequence in this area--- </span>
+                            <div class="input-group p-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">next </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="input next chord name!"
+                                    aria-label="..." aria-describedby="button-addon1 button-addon2" id="input-txt-area" value="Dmin7">
+                                <div class="input-group-append">
+                                    <button type="button" id="add-button" class="btn btn-outline-secondary">add</button>
+                                    </div>
+                            </div>
+                            <button type="button" id="button-addon0" class="btn btn-outline-secondary">＜</button>
+                            <button type="button" id="button-addon1" class="btn btn-outline-secondary">＞</button>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                            aria-labelledby="v-pills-profile-tab">
+                            <p>analysis of sample song2...</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                            aria-labelledby="v-pills-messages-tab">
+                            <p>analysis of sample song3...</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                            aria-labelledby="v-pills-settings-tab">
+                            <p>analysis of custom song...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+        <script src="js/incremental_chart.js"></script>
+        <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script src="js/tree.js"></script>
+    </div>
+</body>
 
 </html>
