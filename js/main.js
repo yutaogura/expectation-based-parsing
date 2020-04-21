@@ -3,9 +3,11 @@ var init_state = new State("S",[],decided=false);
 g_chart.push(init_state);
 var chart_log = [g_chart];
 
-const chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","Abmin7","Db7","Cmaj7"]
+var chord_prog = ["Cmaj7","D7","Dmin7","G7","Cmaj7"];
 var sequence_pos = 0;
 var current_sequence = [];
+var displayID = 0;
+var candidate_trees;
 
 console.log(g_chart);
 
@@ -42,8 +44,17 @@ function init() {
         return builder;
     }
 
-    var tree_array = [];
+    $('#inputGroupSelect02').change(function(){
+        console.log("change",$(this).val());
+        displayID = $(this).val();
+        root = d3.hierarchy(displayTree(candidate_trees[displayID]));
+        console.log("=========>"+ width);
+        root.x0 = width / 2;
+        root.y0 = 0;
+        svg_init(root);
+    });
 
+    // add button
     $('#add-button').bind('click', function() {
         
         predict_flag = false;
@@ -57,24 +68,20 @@ function init() {
         } 
 
         $('#dv').empty();
-        var number_of_trees = 0;
-        tree_array = [];
-        var tree = g_chart.chart// hogehoge
-        console.log(g_chart);
-        number_of_trees = 1;
-        root = d3.hierarchy(displayTree(tree[0]));
+        candidate_trees = g_chart.chart;
+        console.log("length",candidate_trees.length);
+        $('#candidate_num').text(candidate_trees.length);
+
+        $("#inputGroupSelect02").empty();
+        for(var i = 0;i < candidate_trees.length;i++){
+            $("#inputGroupSelect02").append($("<option>").val(i).text(i+1));
+        }
+        root = d3.hierarchy(displayTree(candidate_trees[displayID]));
         console.log("=========>"+ width);
         root.x0 = width / 2;
         root.y0 = 0;
-        tree_array.push(root);
-        console.log("tree",tree_array[0]);
-        if(number_of_trees > 0){
-            svg_init(tree_array[0]);
-            console.log(number_of_trees);
-            $('#num').val(number_of_trees);
-        }else{
-            predict_flag = true;
-        }
+        console.log("tree",candidate_trees[displayID]);
+        svg_init(root);
 
         var str = $('#input-txt-area').val();
         current_sequence.push(str)
@@ -84,6 +91,7 @@ function init() {
         $('#input-txt-area').val(chord_prog[sequence_pos]);
     });
 
+    //Back One step button
     $('#back-button').on('click',function(){
         current_sequence.pop();
         $('#display_sequence').text(current_sequence);
@@ -99,29 +107,19 @@ function init() {
         predict_flag = false;
         var s = $(this).val();   
         $('#dv').empty();
-        var number_of_trees = 0;
-        tree_array = [];
-        var tree = g_chart.chart// hogehoge
-        console.log(g_chart);
-        number_of_trees = 1;
-        root = d3.hierarchy(displayTree(tree[0]));
+        candidate_trees = g_chart.chart// hogehoge
+        root = d3.hierarchy(displayTree(candidate_trees[displayID]));
         console.log("=========>"+ width);
         root.x0 = width / 2;
         root.y0 = 0;
-        tree_array.push(root);
-        console.log("tree",tree_array[0]);
-        if(number_of_trees > 0){
-            svg_init(tree_array[0]);
-            console.log(number_of_trees);
-            $('#num').val(number_of_trees);
-        }else{
-            predict_flag = true;
-        }
+        console.log("tree",candidate_trees[displayID]);
+        svg_init(root);
     })
-
+    
+    //clear all chord Button
     $('#clear-all-button').on('click',function(){
         current_sequence = [];
-        $('#display_sequence').text("--display here--");
+        $('#display_sequence').text(" --show chord sequence in this area--");
         g_chart = new Chart();
         init_state = new State("S",[],decided=false);
         $('#input-txt-area').val(chord_prog[0]);
@@ -132,11 +130,61 @@ function init() {
         
     })
 
-    $('#post').on('click',function(){
-        var now =  Number(document.getElementById('display_tree_num').value);
-        if(now < document.getElementById('display_tree_num').max ){
-            document.getElementById('display_tree_num').value = now + 1;
-            svg_init(tree_array[now]);
-        }
+
+    //navigation bar
+    //A train 
+    $('#v-pills-a-train').on('click',function(){
+        chord_prog = ["Cmaj7","D7","Dmin7","G7","Cmaj7"];
+        current_sequence = [];
+        $('#display_sequence').text(" ---show chord sequence in this area---");
+        g_chart = new Chart();
+        init_state = new State("S",[],decided=false);
+        $('#input-txt-area').val(chord_prog[0]);
+        g_chart.push(init_state);
+        chart_log = [g_chart];
+        sequence_pos = 0;
+        $('.svg').empty();
+    })
+
+    //Satin Doll
+    $('#v-pills-satin').on('click',function(){
+        chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","Abmin7","Db7","Cmaj7"];
+        current_sequence = [];
+        $('#display_sequence').text(" ---show chord sequence in this area---");
+        g_chart = new Chart();
+        init_state = new State("S",[],decided=false);
+        $('#input-txt-area').val(chord_prog[0]);
+        g_chart.push(init_state);
+        chart_log = [g_chart];
+        sequence_pos = 0;
+        $('.svg').empty();
+    })
+
+    //Autumn leaves
+    $('#v-pills-autumn-leaves').on('click',function(){
+        chord_prog = ["Cmin7","F7","Bbmaj7","Ebmaj7","Ahdim","D7","Gmin7"];
+        current_sequence = [];
+        $('#display_sequence').text(" ---show chord sequence in this area---");
+        g_chart = new Chart();
+        init_state = new State("S",[],decided=false);
+        $('#input-txt-area').val(chord_prog[0]);
+        g_chart.push(init_state);
+        chart_log = [g_chart];
+        sequence_pos = 0;
+        $('.svg').empty();
+    })
+
+    //Custom songs
+    $('#v-pills-custom-songs').on('click',function(){
+        chord_prog = [];
+        current_sequence = [];
+        $('#display_sequence').text(" ---show chord sequence in this area---");
+        g_chart = new Chart();
+        init_state = new State("S",[],decided=false);
+        $('#input-txt-area').val("");
+        g_chart.push(init_state);
+        chart_log = [g_chart];
+        sequence_pos = 0;
+        $('.svg').empty();
     })
 }

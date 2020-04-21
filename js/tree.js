@@ -8,7 +8,7 @@ var vocabulary = ["Dmin7","G7","Emin7","A7","Amin7","D7","Abmin7","Db7","Cmaj7"]
 // temp_root.x0 = width / 2;
 // temp_root.y0 = 0;
 
-var tree = d3.tree()
+var current_trees = d3.tree()
   .size([width, height-100])
   .nodeSize([100,100]);
 //.separation(function(a, b) { return(a.parent == b.parent ? 1 : 2); });
@@ -63,7 +63,7 @@ function toggle(d) {
 
 // svg要素の更新関数
 function update(source) {
-  tree(temp_root);
+  current_trees(temp_root);
   console.log("leaf_size " + leaf_size);
     // 子、孫方向の位置設定
   var increment = 150;

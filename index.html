@@ -217,31 +217,55 @@
                 <div class="col-3">
                     <div class="nav flex-column nav-pills nav-fill" id="v-pills-tab" role="tablist"
                         aria-orientation="vertical">
-                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true">take the A train</a>
-                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
-                            role="tab" aria-controls="v-pills-profile" aria-selected="false">satin doll</a>
-                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false">autumn leaves</a>
-                        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
-                            role="tab" aria-controls="v-pills-settings" aria-selected="false">custom song</a>
+                        <a class="nav-link active" id="v-pills-a-train" data-toggle="pill" href="#v-pills-a-train"
+                            role="tab" aria-controls="v-pills-a-train" aria-selected="true">take the A train</a>
+                        <a class="nav-link" id="v-pills-satin" data-toggle="pill" href="#v-pills-satin"
+                            role="tab" aria-controls="v-pills-satin" aria-selected="false">satin doll</a>
+                        <a class="nav-link" id="v-pills-autumn-leaves" data-toggle="pill" href="#v-pills-autumn-leaves"
+                            role="tab" aria-controls="v-pills-autumn-leaves" aria-selected="false">autumn leaves</a>
+                        <a class="nav-link" id="v-pills-custom-songs" data-toggle="pill" href="#v-pills-custom-songs"
+                            role="tab" aria-controls="v-pills-custom-songs" aria-selected="false">custom song</a>
                     </div>
                 </div>
                 <div class="col-9 border-left">
                     <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                            aria-labelledby="v-pills-home-tab">
+                        <div class="row justify-content-between">
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <select class="custom-select" id="inputGroupSelect01">
+                                        <option>global chart</option>
+                                        <option>local chart</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" for ="inputGroupSelect02">Candidate#</span>
+                                    </div>
+                                    <select class="custom-select" id="inputGroupSelect02">
+                                      <option value="0" selected>1</option>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">of</span>
+                                        <span class="input-group-text" id="candidate_num">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show active" id="v-pills-a-train" role="tabpanel"
+                            aria-labelledby="v-pills-a-train">
                             <div class="overflow-auto" style="max-height: 600px;">
                             <svg class="svg" width="100%" height="600px"></svg> 
                             </div>
                             chord sequence :<span id="display_sequence"> ---show chord sequence in this area--- </span>
                             <div class="row">
-                                <div class="input-group col-sm-3">
+                                <div class="input-group col-sm-4">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">next </span>
                                     </div>
                                     <input type="text" class="form-control" placeholder="input next chord name!"
-                                        aria-label="..." aria-describedby="button-addon1 button-addon2" id="input-txt-area" value="Dmin7">
+                                        aria-label="..." aria-describedby="button-addon1 button-addon2" id="input-txt-area" value="Cmaj7">
                                         <div class="input-group-append">
                                         <button type="button" id="add-button" class="btn btn-outline-success">add</button>
                                         </div>
@@ -250,16 +274,16 @@
                                 <button type="button" id="clear-all-button" class="btn btn-secondary">clear all</button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel
-                            aria-labelledby="v-pills-profile-tab">
+                        <div class="tab-pane fade" id="v-pills-satin" role="tabpanel"
+                            aria-labelledby="v-pills-satin">
                             <p>analysis of sample song2...</p>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                            aria-labelledby="v-pills-messages-tab">
+                        <div class="tab-pane fade" id="v-pills-autumn-leaves" role="tabpanel"
+                            aria-labelledby="v-pills-autumn-leaves">
                             <p>analysis of sample song3...</p>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
-                            aria-labelledby="v-pills-settings-tab">
+                        <div class="tab-pane fade" id="v-pills-custom-songs" role="tabpanel"
+                            aria-labelledby="v-pills-custom-songs">
                             <p>analysis of custom song...</p>
                         </div>
                     </div>
