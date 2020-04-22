@@ -19,7 +19,15 @@ function init() {
         return false;
     });
 
-
+    //key_setting
+    $('#key-set-button').click(function(){
+        var key = [];
+        $('input:checkbox[name="keyCheckBox"]:checked').each(function(){
+            key.push($(this).val());
+        })
+        $('#current-key').text(key);
+        set_key(key);
+    });
     //木の表示
     function displayTree(tree) {
         console.log("===display Tree==")
@@ -44,6 +52,7 @@ function init() {
         return builder;
     }
 
+    //change display candidate tree 
     $('#inputGroupSelect02').change(function(){
         console.log("change",$(this).val());
         displayID = $(this).val();
@@ -148,7 +157,7 @@ function init() {
 
     //Satin Doll
     $('#v-pills-satin').on('click',function(){
-        chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","Abmin7","Db7","Cmaj7"];
+        chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","G#min7","C#7","Cmaj7"];
         current_sequence = [];
         $('#display_sequence').text(" ---show chord sequence in this area---");
         g_chart = new Chart();

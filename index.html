@@ -72,138 +72,153 @@
             <div class="tab-content mt-3" id="nav-tabContent">
                 <div class="tab-pane active" id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                        <input class="form-check-input" type="radio" name="startRadios" id="startRadios1"
                             value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
+                        <label class="form-check-label" for="startRadios1">
                             only tonic "I" 
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                        <input class="form-check-input" type="radio" name="startRadios" id="startRadios2"
                             value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
+                        <label class="form-check-label" for="startRadios2">
                             allow all degree chord
                         </label>
                     </div>
                 </div>
                 <div class="tab-pane" id="nav-preparation" role="tabpanel" aria-labelledby="nav-preparation-tab">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="exampleRadioss" id="exampleRadios1"
+                        <input class="form-check-input" type="checkbox" name="prepCheckBox" id="prepCheckBox1"
                             value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
+                        <label class="form-check-label" for="prepCheckBox1">
                             I -> V I
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="exampleRadioss" id="exampleRadios2"
+                        <input class="form-check-input" type="checkbox" name="prepCheckBox" id="prepCheckBox2"
                             value="option2" checked>
-                        <label class="form-check-label" for="exampleRadios2">
+                        <label class="form-check-label" for="prepCheckBox2">
                             V -> II V
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="prepCheckBox" id="prepCheckBox4"
+                            value="option2" checked>
+                        <label class="form-check-label" for="prepCheckBox4">
+                            V_x -> V_x+5 V_x
+                        </label>
+                    </div>
+                    <hr>
+                    ※ left recursion rule is limited to aplly at once in step 2
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="prepCheckBox" id="prepCheckBox3"
+                            value="option2" checked>
+                        <label class="form-check-label" for="prepCheckBox3">
+                            I -> I I
                         </label>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-replace" role="tabpanel" aria-labelledby="nav-replace-tab">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadiosss" id="exampleRadios1"
-                            value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
-                            c
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadiosss" id="exampleRadios2"
-                            value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            d
+                        <input class="form-check-input" type="checkbox" name="prepCheckBox" id="prepCheckBox1"
+                            value="option1">
+                        <label class="form-check-label" for="prepCheckBox1">
+                            ex.) V_c -> V_f# (dominant substitution)
                         </label>
                     </div>
                 </div>
-
+<!-- ここからkey settings -->
                 <div class="tab-pane" id="nav-key" role="tabpanel" aria-labelledby="nav-key-tab">
+                    <div>
+                        current key: <span id="current-key">C</span>
+                    </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios1"
-                            value="option1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox1"
+                            value="C" checked>
+                        <label class="form-check-label" for="keyCheckBox1">
                             C
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios2"
-                            value="option2" checked>
-                        <label class="form-check-label" for="exampleRadios2">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox2"
+                            value="C#" >
+                        <label class="form-check-label" for="keyCheckBox2">
                             C#
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios3"
-                            value="option3" checked>
-                        <label class="form-check-label" for="exampleRadios3">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox3"
+                            value="D">
+                        <label class="form-check-label" for="keyCheckBox3">
                             D
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios4"
-                            value="option4" checked>
-                        <label class="form-check-label" for="exampleRadios4">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox4"
+                            value="D#">
+                        <label class="form-check-label" for="keyCheckBox4">
                             D#
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios5"
-                            value="option5" checked>
-                        <label class="form-check-label" for="exampleRadios5">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox5"
+                            value="E">
+                        <label class="form-check-label" for="keyCheckBox5">
                             E
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios6"
-                            value="option6" checked>
-                        <label class="form-check-label" for="exampleRadios6">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox6"
+                            value="F">
+                        <label class="form-check-label" for="keyCheckBox6">
                             F
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios7"
-                            value="option7" checked>
-                        <label class="form-check-label" for="exampleRadios7">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox7"
+                            value="F#">
+                        <label class="form-check-label" for="keyCheckBox7">
                             F#
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios8"
-                            value="option8" checked>
-                        <label class="form-check-label" for="exampleRadios8">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox8"
+                            value="G">
+                        <label class="form-check-label" for="keyCheckBox8">
                             G
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios9"
-                            value="option9" checked>
-                        <label class="form-check-label" for="exampleRadios9">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox9"
+                            value="G#">
+                        <label class="form-check-label" for="keyCheckBox9">
                             G#
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios10"
-                            value="option10" checked>
-                        <label class="form-check-label" for="exampleRadios10">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox10"
+                            value="A">
+                        <label class="form-check-label" for="keyCheckBox10">
                             A
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios11"
-                            value="option11" checked>
-                        <label class="form-check-label" for="exampleRadios11">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox11"
+                            value="A#">
+                        <label class="form-check-label" for="keyCheckBox11">
                             A#
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="keyRadios" id="exampleRadios12"
-                            value="option12" checked>
-                        <label class="form-check-label" for="exampleRadios12">
+                        <input class="form-check-input" type="checkbox" name="keyCheckBox" id="keyCheckBox12"
+                            value="B">
+                        <label class="form-check-label" for="keyCheckBox12">
                             B
                         </label>
                     </div>
+                    
+                        <button type="button" id="key-set-button" class="btn btn-primary btn-sm">set</button>
+            
                 </div>
             </div>
         </div>
@@ -222,9 +237,9 @@
                         <a class="nav-link" id="v-pills-satin" data-toggle="pill" href="#v-pills-satin"
                             role="tab" aria-controls="v-pills-satin" aria-selected="false">satin doll</a>
                         <a class="nav-link" id="v-pills-autumn-leaves" data-toggle="pill" href="#v-pills-autumn-leaves"
-                            role="tab" aria-controls="v-pills-autumn-leaves" aria-selected="false">autumn leaves</a>
+                            role="tab" aria-controls="v-pills-autumn-leaves" aria-selected="false">(autumn leaves)</a>
                         <a class="nav-link" id="v-pills-custom-songs" data-toggle="pill" href="#v-pills-custom-songs"
-                            role="tab" aria-controls="v-pills-custom-songs" aria-selected="false">custom song</a>
+                            role="tab" aria-controls="v-pills-custom-songs" aria-selected="false">(custom song)</a>
                     </div>
                 </div>
                 <div class="col-10 border-left">
