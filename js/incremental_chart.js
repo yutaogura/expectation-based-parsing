@@ -59,10 +59,29 @@ function generate_lexicon(){
 }
 
 function generate_grammar(){
-    var start_rules = generate_start_rule();
-    Grammar = Grammar.concat(start_rules);
-    var prep_rules = generate_preparation_rule();
-    Grammar = Grammar.concat(prep_rules);
+    var a_train_grammar = [
+        new Rule("S",["I_C"]),
+        new Rule("I_C",["I_C","I_C"]),
+        new Rule("I_C",["V_C","I_C"]),
+        new Rule("V_C",["II_C","V_C"]),
+        new Rule("V_C",["V_G","V_C"])
+        ];
+    var satin_grammar = [
+        new Rule("S",["I_C"]),
+        new Rule("I_C",["V_C","I_C"]),
+        new Rule("V_C",["II_C","V_C"]),
+        new Rule("V_C",["V_G","V_C"]),
+        new Rule("V_C",["V_F#"]),
+        new Rule("V_D",["II_D","V_D"]),
+        new Rule("V_F#",["II_F#","V_F#"]),
+        new Rule("V_G",["II_G","V_G"]),
+        new Rule("V_G",["V_D","V_G"])
+        ];  
+    Grammar = Grammar.concat(satin_grammar);
+    // var start_rules = generate_start_rule();
+    // Grammar = Grammar.concat(start_rules);
+    // var prep_rules = generate_preparation_rule();
+    // Grammar = Grammar.concat(prep_rules);
     // var replace_rules = generate_replace_rule();
     // Grammar = Grammar.concat(replace_rules);
 }
