@@ -58,7 +58,7 @@ function generate_lexicon(){
     }
 }
 
-function generate_grammar(){
+function generate_grammar(flag){
     var a_train_grammar = [
         new Rule("S",["I_C"]),
         new Rule("I_C",["I_C","I_C"]),
@@ -77,13 +77,22 @@ function generate_grammar(){
         new Rule("V_G",["II_G","V_G"]),
         new Rule("V_G",["V_D","V_G"])
         ];  
-    Grammar = Grammar.concat(satin_grammar);
+    if(flag){
+        Grammar = Grammar.concat(a_train_grammar);
+    }else{
+        Grammar = Grammar.concat(satin_grammar);
+    }    
     // var start_rules = generate_start_rule();
     // Grammar = Grammar.concat(start_rules);
     // var prep_rules = generate_preparation_rule();
     // Grammar = Grammar.concat(prep_rules);
     // var replace_rules = generate_replace_rule();
     // Grammar = Grammar.concat(replace_rules);
+
+    console.log("==print_grammar==")
+    for(let i = 0; i < Grammar.length; i++){
+        console.log(Grammar[i].print_rule())
+    }
 }
 
 function generate_start_rule(){
@@ -217,7 +226,7 @@ class Chart {
 
 generate_category();
 generate_lexicon();
-generate_grammar();
+generate_grammar(true);
 
 //console.log(CATEGORY);
 //console.log(LEXICON);
@@ -233,10 +242,6 @@ generate_grammar();
 //     new Rule("V_G", ["V_D", "V_G"]),
 //     new Rule("V_D", ["II_D", "V_D"])]
 
-console.log("==print_grammar==")
-for(let i = 0; i < Grammar.length; i++){
-    console.log(Grammar[i].print_rule())
-}
 
 function chart_parsing(global_chart,w){
     var local_chart = new Chart();
@@ -278,14 +283,14 @@ function chart_parsing(global_chart,w){
                 local_chart.push(new_state);
                 //console.log("step2",JSON.parse(JSON.stringify(new_state)));
                 //左再帰ルールかどうか？
+                if(left_rec_flag){
+                    nukeru = true;
+                    console.log("step2",g);
+                    console.log("step2","fire");
+                    break;　//一度でも使っていたら抜ける
+                }
                 if(g.left == g.right[0]){
                     //左再帰を一度でも使っているか？
-                    if(left_rec_flag){
-                        nukeru = true;
-                        console.log("step2",g);
-                        console.log("step2","fire");
-                        break;　//一度でも使っていたら抜ける
-                    }
                     console.log("step2","flag");
                     left_rec_flag = true;　//使っていなければフラグを立てる
                 }

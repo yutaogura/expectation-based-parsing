@@ -19,6 +19,12 @@ function init() {
         return false;
     });
 
+    $('#nav-start-tab').click(function(){
+        generate_grammar(true);
+    })
+    $('#nav-preparation-tab').click(function(){
+        generate_grammar(false);
+    })
     //key_setting
     $('#key-set-button').click(function(){
         var key = [];
