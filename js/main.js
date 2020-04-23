@@ -19,11 +19,17 @@ function init() {
         return false;
     });
 
+    //take the A train
     $('#nav-start-tab').click(function(){
         generate_grammar(true);
+        v_nav_cahnge(1);
+        analyse_atrain();
     })
+    //satin doll
     $('#nav-preparation-tab').click(function(){
         generate_grammar(false);
+        v_nav_cahnge(2);
+        analyse_satin();
     })
     //key_setting
     $('#key-set-button').click(function(){
@@ -149,30 +155,16 @@ function init() {
     //navigation bar
     //A train 
     $('#v-pills-a-train').on('click',function(){
-        chord_prog = ["Cmaj7","D7","Dmin7","G7","Cmaj7"];
-        current_sequence = [];
-        $('#display_sequence').text(" ---show chord sequence in this area---");
-        g_chart = new Chart();
-        init_state = new State("S",[],decided=false);
-        $('#input-txt-area').val(chord_prog[0]);
-        g_chart.push(init_state);
-        chart_log = [g_chart];
-        sequence_pos = 0;
-        $('.svg').empty();
+        h_nav_change(1);
+        generate_grammar(true);
+        analyse_atrain();
     })
 
     //Satin Doll
     $('#v-pills-satin').on('click',function(){
-        chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","G#min7","C#7","Cmaj7"];
-        current_sequence = [];
-        $('#display_sequence').text(" ---show chord sequence in this area---");
-        g_chart = new Chart();
-        init_state = new State("S",[],decided=false);
-        $('#input-txt-area').val(chord_prog[0]);
-        g_chart.push(init_state);
-        chart_log = [g_chart];
-        sequence_pos = 0;
-        $('.svg').empty();
+        h_nav_change(2);
+        generate_grammar(false);
+        analyse_satin();
     })
 
     //Autumn leaves
@@ -202,4 +194,72 @@ function init() {
         sequence_pos = 0;
         $('.svg').empty();
     })
+}
+
+function analyse_satin(){
+    $('#candidate_num').text(0)
+    chord_prog = ["Dmin7","G7","Emin7","A7","Amin7","D7","G#min7","C#7","Cmaj7"];
+    current_sequence = [];
+    $('#display_sequence').text(" ---show chord sequence in this area---");
+    g_chart = new Chart();
+    init_state = new State("S",[],decided=false);
+    $('#input-txt-area').val(chord_prog[0]);
+    g_chart.push(init_state);
+    chart_log = [g_chart];
+    sequence_pos = 0;
+    $('.svg').empty();
+}
+
+function analyse_atrain(){
+    $('#candidate_num').text(0)
+    chord_prog = ["Cmaj7","D7","Dmin7","G7","Cmaj7"];
+    current_sequence = [];
+    $('#display_sequence').text(" ---show chord sequence in this area---");
+    g_chart = new Chart();
+    init_state = new State("S",[],decided=false);
+    $('#input-txt-area').val(chord_prog[0]);
+    g_chart.push(init_state);
+    chart_log = [g_chart];
+    sequence_pos = 0;
+    $('.svg').empty();
+}
+
+function h_nav_change(i){
+    switch(i){
+        case 1:
+        $('#nav-start-tab').attr('aria-selected',true);
+        $('#nav-start-tab').attr('class',"nav-item nav-link h5 active");
+        $('#nav-start').attr('class',"tab-pane active");
+        $('#nav-preparation-tab').attr('aria-selected',false);
+        $('#nav-preparation-tab').attr('class',"nav-item nav-link h5");
+        $('#nav-preparation').attr('class',"tab-pane");
+        break;
+        case 2:
+        $('#nav-start-tab').attr('aria-selected',false);
+        $('#nav-start-tab').attr('class',"nav-item nav-link h5");
+        $('#nav-start').attr('class',"tab-pane");
+        $('#nav-preparation-tab').attr('aria-selected',true);
+        $('#nav-preparation-tab').attr('class',"nav-item nav-link h5 active");
+        $('#nav-preparation').attr('class',"tab-pane active");
+        break;
+
+    }
+}
+
+function v_nav_cahnge(i){
+    switch(i){
+        case 1:
+        $('#v-pills-a-train').attr('aria-selected',true);
+        $('#v-pills-a-train').attr('class',"nav-link active");
+        $('#v-pills-satin').attr('aria-selected',false);
+        $('#v-pills-satin').attr('class',"nav-link");
+        break;
+        case 2:
+        $('#v-pills-a-train').attr('aria-selected',false);
+        $('#v-pills-a-train').attr('class',"nav-link");
+        $('#v-pills-satin').attr('aria-selected',true);
+        $('#v-pills-satin').attr('class',"nav-link active");
+        break;
+
+    }
 }
