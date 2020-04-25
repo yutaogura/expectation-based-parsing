@@ -75,7 +75,7 @@ function update(source) {
     console.log("node",d.children); //子（見えてる）
     console.log("node",d._children); //子(見えてない(格納されている))
       if(d.children||d._children){ 
-        //節 or 未決定節
+        //節 or 未決定節(子がいる)
         d.y = d.depth * 60; 
         var temp_child;
         if(d.children == null){
@@ -100,22 +100,19 @@ function update(source) {
           console.log("node",d.x);
         }
       }else{
-        //葉なら下げる
+       //(子がいない)
         d.x = most_left_x + increment * i;
         i = i+1 ;
-        if(predict_flag && i == leaf_size ){
-          d.y = d.depth * 60;
-        }else{
-          //葉が決定項の時
+         console.log("leaf data",d.data.name);
+        if(vocabulary.indexOf(d.data.name) >= 0){
+          //葉が決定項の時 == カテゴリではない
           console.log("leaf",d.data.name);
-          if(vocabulary.indexOf(d.data.name) >= 0){
-            //葉が決定項の時 == カテゴリではない
-            console.log("leaf","decided term");
-            d.y = leaf_depth * 60; 
-          }else{
-            d.y = d.depth * 60;
-          }
+          d.y = leaf_depth * 60; 
+        }else{
+            //未決定こうなら下げる
+          d.y = d.depth * 60;
         }
+        
         console.log("node",d.x);
       }
     });
@@ -153,7 +150,14 @@ function update(source) {
     .attr("fill",function(d){
       return ( d.children || d._children ) ? "black" : "red";})
     .attr("text-anchor", function(d) { return d.children || d._children ? "middle" : "middle"; })
-    .text(function(d) { console.log(d.data.name); return d.data.name; })
+    .text(function(d) { 
+      if(!(d.children || d._children) && vocabulary.indexOf(d.data.name) < 0){
+        //子が居ないかつ終端記号ではない
+        return　"↓" + d.data.name;
+      }else{
+        return d.data.name; 
+      }
+    })
     .style("fill-opacity", 1e-6);
 
     // ノード enter+update領域の設定
