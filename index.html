@@ -120,7 +120,7 @@ V_G -> V_D V_G
                 <div class="col-10 border-left">
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="row justify-content-between">
-                            <div class="col-md-2">
+                            <div class="col-md-5">
                                 <div class="input-group">
                                     <select class="custom-select" id="inputGroupSelect01">
                                         <option>global chart</option>
@@ -128,7 +128,7 @@ V_G -> V_D V_G
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" for ="inputGroupSelect02">Candidate#</span>
@@ -146,7 +146,7 @@ V_G -> V_D V_G
                         <div class="tab-pane fade show active" id="v-pills-a-train" role="tabpanel"
                             aria-labelledby="v-pills-a-train">
                             <div class="overflow-auto" style="max-height: 600px;">
-                            <svg class="svg" width="100%" height="500px"></svg> 
+                            <svg class="svg" width="100%" height="450px"></svg> 
                             </div>
                             chord sequence :<span id="display_sequence"> ---show chord sequence in this area--- </span>
                             <div class="row">
@@ -159,9 +159,11 @@ V_G -> V_D V_G
                                         <div class="input-group-append">
                                         <button type="button" id="add-button" class="btn btn-outline-success">add</button>
                                         </div>
-                                    </div>  
-                                <button type="button" id="back-button" class="btn btn-secondary">back</button>
-                                <button type="button" id="clear-all-button" class="btn btn-secondary">clear all</button>
+                                    </div> 
+                                <div class="btn-group" roule="group">     
+                                    <button type="button" id="back-button" class="btn btn-outline-secondary">back</button>
+                                    <button type="button" id="clear-all-button" class="btn btn-outline-secondary">clear all</button>
+                                </div>    
                             </div>
                             <br>
                         </div>

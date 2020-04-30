@@ -1,7 +1,7 @@
 # Expectation-based Parsing of Jazz Chord Sequences
 
 ## Note
-- application page -> https://yutaogura.github.io/expectation-based_parsing/index.html
+- application page -> https://yutaogura.github.io/expectation-based-parsing/index.html
 ## Contents
 
 ## REFERENCES

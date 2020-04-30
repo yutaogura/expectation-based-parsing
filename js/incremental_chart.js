@@ -268,7 +268,7 @@ function chart_parsing(global_chart,w){
     var nukeru = false;
     var state_set_local = local_chart.get_chart();
     for(let i = 0;i<state_set_local.length;i++){
-        console.log("step2",state_set_local[i]);
+        console.log("step2(length)",state_set_local.length + " | " + i);
         for(let j = 0;j<Grammar.length;j++){
             var g = Grammar[j];
             if(g.right[0] == state_set_local[i].category){
