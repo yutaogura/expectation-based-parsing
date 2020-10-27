@@ -4,8 +4,8 @@
 ### SMC2020 Paper 
 https://smc2020torino.it/adminupload/file/SMCCIM_2020_paper_111.pdf
 ### SMC2020 Poster and Presentation video
-https://youtu.be/4mBmUoJZc-4
-https://youtu.be/31AA2G_yo5o
+- https://youtu.be/4mBmUoJZc-4
+- https://youtu.be/31AA2G_yo5o
 
 ### SMC2020 application page 
 https://yutaogura.github.io/expectation-based-parsing/index.html
